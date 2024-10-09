@@ -29,7 +29,7 @@ You can follow the development of **SolveIT** live on YouTube! The live stream w
 
 The live stream is interactive, and you’re encouraged to ask questions and code along.
 
-**YouTube Live Stream Link**: [Insert Your YouTube Live Stream URL Here]
+**YouTube Live Stream Link**: 
 
 ## Project Requirements
 
@@ -42,3 +42,6 @@ This document outlines the overall project goals, including:
 - User role and permission system.
 - File upload and tagging functionality.
 - Internationalization and localization considerations.
+
+## Coding Your Career
+If you're enjoying the SolveIT project and want to level up your own development skills, check out [Coding Your Career](https://codingyourcareer.com)! We offer courses, tutorials, and resources designed to help you grow as a software developer, whether you're just starting out or looking to advance your career. Join us to learn more about **Java**, **C#**, **JavaScript**, **TypeScript**, and more.
