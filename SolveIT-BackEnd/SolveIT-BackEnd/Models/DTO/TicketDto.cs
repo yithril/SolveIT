@@ -26,6 +26,7 @@ public class TicketDto
 
     [Required]
     public Language Language { get; set; }
-    public User CreatedBy { get; set; }
+    public User User { get; set; }
     public DateTime CreatedOn { get; set; }
+    public List<CommentDto> Comments { get; set; } = new List<CommentDto>();
 }

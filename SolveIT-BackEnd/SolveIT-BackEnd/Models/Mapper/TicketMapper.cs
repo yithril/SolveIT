@@ -14,5 +14,26 @@ public static class TicketMapper
         Description = ticket.Description,
         Language = ticket.Language,
         CreatedOn = ticket.CreatedOn,
+        Comments = ticket.Comments.Select(c => c.ToDto()).ToList()
+    };
+
+    public static Ticket FromCreateDto(this CreateTicketDto dto) => new()
+    {
+        Priority = dto.Priority,
+        Severity = dto.Severity,
+        Status = dto.Status,
+        Title = dto.Title,
+        Description = dto.Description,
+        Language = dto.Language
+    };
+
+    public static Ticket FromUpdateTicketDto(this UpdateTicketDto dto) => new()
+    {
+        Priority = dto.Priority,
+        Severity = dto.Severity,
+        Status = dto.Status,
+        Title = dto.Title,
+        Description = dto.Description,
+        Language = dto.Language
     };
 }
