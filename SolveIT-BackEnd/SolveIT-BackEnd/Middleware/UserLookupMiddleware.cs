@@ -16,13 +16,16 @@ public class UserLookupMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var auth0Id = context.User.FindFirst("sub")?.Value;
-        if (auth0Id != null)
+        if (context.User.Identity?.IsAuthenticated == true)
         {
-            var user = await _appDbContext.Users.FirstOrDefaultAsync(x => x.Auth0Id == auth0Id);
-            if (user != null)
+            var auth0Id = context.User.FindFirst("sub")?.Value;
+            if (auth0Id != null)
             {
-                context.Items["User"] = user;
+                var user = await _appDbContext.Users.FirstOrDefaultAsync(x => x.Auth0Id == auth0Id);
+                if (user != null)
+                {
+                    context.Items["User"] = user;
+                }
             }
         }
 

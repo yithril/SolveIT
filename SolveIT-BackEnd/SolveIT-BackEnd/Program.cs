@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SolveIT_BackEnd;
 using SolveIT_BackEnd.Data;
 using SolveIT_BackEnd.Handlers;
+using SolveIT_BackEnd.Middleware;
 using System.Reflection;
 
 
@@ -54,6 +55,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAngular");
+
+app.UseMiddleware<UserLookupMiddleware>();
 
 app.UseHttpsRedirection();
 
