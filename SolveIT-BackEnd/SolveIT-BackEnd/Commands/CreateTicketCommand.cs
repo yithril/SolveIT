@@ -13,6 +13,5 @@ public class CreateTicketCommand : IRequest<TicketDto>
     public TicketStatus Status { get; set; }
     public Language Language { get; set; }
     public int DepartmentId { get; set; }
-    public string CreatedBy { get; set; }  
-    public DateTime CreatedOn { get; set; } 
+    public int CreatedById { get; set; }
 }

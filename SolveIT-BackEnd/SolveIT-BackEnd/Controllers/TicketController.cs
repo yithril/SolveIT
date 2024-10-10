@@ -26,9 +26,15 @@ public class TicketController : ApiBaseController
             return BadRequest(ModelState);
         }
 
+        var user = GetCurrentUser();
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
         var command = dto.ToCommand();
-        command.CreatedBy = GetCurrentUserId();
-        command.CreatedOn = DateTime.UtcNow;
+        command.CreatedById = user.Id;
 
         var ticketDto = await _mediator.Send(command);
 

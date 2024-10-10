@@ -4,5 +4,5 @@ namespace SolveIT_BackEnd.Models.Mapper;
 
 public static class CommentMapper
 {
-    //public static CommentDto ToDto(this Comment comment) => new(comment.Id, comment.Content, comment.TicketId, comment.);
+    public static CommentDto ToDto(this Comment comment) => new(comment.Id, comment.Content, comment.TicketId, comment.CreatedBy, comment.CreatedOn);
 }

@@ -21,7 +21,14 @@ public static class TicketMapper
 
     public static Ticket ToEntity(this CreateTicketCommand command) => new()
     {
-
+        Title = command.Title,
+        Description = command.Description,
+        Priority = command.Priority,
+        Severity = command.Severity,
+        Status = command.Status,
+        Language = command.Language,
+        CreatedById = command.CreatedById
     };
 
+    public static TicketDto ToDto(this Ticket ticket) => new(ticket.Id, ticket.Priority, ticket.Severity, ticket.Status, ticket.Title, ticket.Description, ticket.Language, ticket.CreatedBy, ticket.CreatedOn, ticket.Comments.Select(x => x.ToDto()).ToList());
 }

@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using SolveIT_BackEnd;
 using SolveIT_BackEnd.Data;
+using SolveIT_BackEnd.Handlers;
+using System.Reflection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddCustomSwagger();
+
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly())); 
 
 var app = builder.Build();
 

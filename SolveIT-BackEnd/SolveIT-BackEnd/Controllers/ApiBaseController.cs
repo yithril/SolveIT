@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SolveIT_BackEnd.Models;
 using System.Security.Claims;
 
 namespace SolveIT_BackEnd.Controllers;
@@ -7,18 +8,13 @@ namespace SolveIT_BackEnd.Controllers;
 [ApiController]
 public abstract class ApiBaseController : ControllerBase
 {
-    protected string GetCurrentUserId()
+    protected User GetCurrentUser()
     {
-        if (User.Identity is ClaimsIdentity identity)
+        var user = HttpContext.Items["User"] as User;
+        if (user == null)
         {
-            // Extract the user ID from the claims (assuming it's stored in the "sub" claim)
-            var userIdClaim = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "sub");
-            if (userIdClaim != null)
-            {
-                return userIdClaim.Value;
-            }
+            throw new KeyNotFoundException("User not found in the current context.");
         }
-
-        return null;
+        return user;
     }
 }
