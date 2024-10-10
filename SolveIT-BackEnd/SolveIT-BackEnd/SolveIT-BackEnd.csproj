@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Events\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

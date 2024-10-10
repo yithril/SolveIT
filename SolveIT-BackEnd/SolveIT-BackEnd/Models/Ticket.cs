@@ -24,6 +24,7 @@ public class Ticket : BaseModel
 
     [Required]
     public Language Language { get; set; }
+
     public List<TicketUser> TicketUsers { get; set; } = new List<TicketUser>();
 
     public List<Comment> Comments { get; set; } = new List<Comment>();

@@ -2,9 +2,7 @@
 
 namespace SolveIT_BackEnd.Models.DTO;
 
-public class CreateTickerUserDto
-{
-    public int TicketId { get; set; }
-    public int UserId { get; set; }
-    public TicketUserRole Role { get; set; }
-}
+public record CreateTicketUserDto(
+    int TicketId,
+    int UserId,
+    TicketUserRole Role);

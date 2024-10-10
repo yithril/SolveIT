@@ -3,25 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SolveIT_BackEnd.Models.DTO;
 
-public class CreateTicketDto
-{
+public record CreateTicketDto(
     [Required]
-    public TicketPriority Priority { get; set; }
-
+    TicketPriority Priority,
     [Required]
-    public TicketSeverity Severity { get; set; }
-
+    TicketSeverity Severity,
     [Required]
-    public TicketStatus Status { get; set; }
-
+    TicketStatus Status,
     [Required]
     [MaxLength(50)]
-    public string Title { get; set; }
-
+    string Title,
     [Required]
     [MaxLength(750)]
-    public string Description { get; set; }
-
+    string Description,
     [Required]
-    public Language Language { get; set; }
-}
+    Language Language,
+    [Required]
+    int DepartmentId);

@@ -2,10 +2,7 @@
 
 namespace SolveIT_BackEnd.Models.DTO;
 
-public class CreateCommentDto
-{
-    [Required]
-    [MaxLength(300)]
-    public string Content { get; set; }
-    public int TicketId { get; set; }
-}
+public record CreateCommentDto(
+    string Content,
+    int TicketId);
+

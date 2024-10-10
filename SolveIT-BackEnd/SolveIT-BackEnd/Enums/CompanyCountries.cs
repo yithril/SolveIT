@@ -6,6 +6,6 @@ public enum CompanyCountry
     France,
     Germany,
     Mexico,
-    South_Korea,
+    SouthKorea,
     USA
 }
