@@ -19,16 +19,9 @@ public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, T
     {
         try
         {
-            //Does the department even exist?
-            var departmentExists = await _appDbContext.Departments.AnyAsync(x => x.Id == request.DepartmentId);
-
-            if(!departmentExists)
-            {
-                throw new ArgumentException("The department does not exist!");
-            }
-
             var ticket = request.ToEntity();
             ticket.CreatedOn = DateTime.UtcNow;
+            ticket.IsActive = true;
 
             _appDbContext.Add(ticket);
             await _appDbContext.SaveChangesAsync(cancellationToken);

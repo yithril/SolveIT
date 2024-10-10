@@ -17,4 +17,5 @@ public class Department : BaseModel
     [Required]
     public string Name { get; set; }
     public List<User> Users { get; set; }
+    public List<Ticket> Tickets { get; set; }
 }
