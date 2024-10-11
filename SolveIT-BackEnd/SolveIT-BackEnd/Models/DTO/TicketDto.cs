@@ -1,5 +1,4 @@
 ﻿using SolveIT_BackEnd.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace SolveIT_BackEnd.Models.DTO;
 
@@ -11,7 +10,8 @@ public record TicketDto(
     string Title,
     string Description,
     Language Language,
-    User User,
+    int CreatedById,
     DateTime CreatedOn,
-    List<CommentDto> Comments);
+    List<CommentDto> Comments,
+    int DepartmentId);
 

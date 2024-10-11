@@ -13,7 +13,7 @@ public abstract class ApiBaseController : ControllerBase
         var user = HttpContext.Items["User"] as User;
         if (user == null)
         {
-            throw new KeyNotFoundException("User not found in the current context.");
+            throw new UnauthorizedAccessException("User not found in the current context.");
         }
         return user;
     }

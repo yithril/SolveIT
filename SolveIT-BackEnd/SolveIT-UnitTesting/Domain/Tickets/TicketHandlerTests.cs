@@ -1,4 +1,4 @@
-﻿using SolveIT_BackEnd.Commands;
+﻿using SolveIT_BackEnd.Commands.Ticket;
 using SolveIT_BackEnd.Enums;
 using SolveIT_BackEnd.Handlers;
 using SolveIT_BackEnd.Models;

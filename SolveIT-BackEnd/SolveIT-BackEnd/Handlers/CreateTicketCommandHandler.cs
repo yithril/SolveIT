@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using SolveIT_BackEnd.Commands;
+using SolveIT_BackEnd.Commands.Ticket;
 using SolveIT_BackEnd.Data;
 using SolveIT_BackEnd.Models.DTO;
 using SolveIT_BackEnd.Models.Mapper;

@@ -36,46 +36,10 @@ public class AppDbContext : DbContext
             .HasForeignKey(x => x.DepartmentId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<User>()
-            .HasOne(x => x.CreatedBy)
-            .WithMany()  
-            .HasForeignKey(x => x.CreatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<User>()
-            .HasOne(x => x.UpdatedBy)
-            .WithMany()  
-            .HasForeignKey(x => x.UpdatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<UserRole>()
-            .HasOne(x => x.CreatedBy)
-            .WithMany()
-            .HasForeignKey(x => x.CreatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<UserRole>()
-            .HasOne(x => x.UpdatedBy)
-            .WithMany()
-            .HasForeignKey(x => x.UpdatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
         modelBuilder.Entity<UserRole>()
             .HasMany(x => x.Users)
             .WithOne(x => x.UserRole)
             .HasForeignKey(x => x.UserRoleId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<Department>()
-            .HasOne(d => d.CreatedBy)
-            .WithMany()  
-            .HasForeignKey(d => d.CreatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<Department>()
-            .HasOne(d => d.UpdatedBy)
-            .WithMany()  
-            .HasForeignKey(d => d.UpdatedById)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Department>()
@@ -96,40 +60,18 @@ public class AppDbContext : DbContext
             .HasForeignKey(tu => tu.UserId)
             .OnDelete(DeleteBehavior.Restrict); 
 
-        modelBuilder.Entity<TicketUser>()
-            .HasOne(tu => tu.CreatedBy)
-            .WithMany()
-            .HasForeignKey(tu => tu.CreatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<TicketUser>()
-            .HasOne(tu => tu.UpdatedBy)
-            .WithMany()
-            .HasForeignKey(tu => tu.UpdatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
         modelBuilder.Entity<Comment>()
             .HasOne(c => c.Ticket)
             .WithMany(t => t.Comments)
             .HasForeignKey(c => c.TicketId)
             .OnDelete(DeleteBehavior.Cascade);  
 
-        modelBuilder.Entity<Comment>()
-            .HasOne(c => c.CreatedBy)
-            .WithMany() 
-            .HasForeignKey(c => c.CreatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<Comment>()
-            .HasOne(c => c.UpdatedBy)
-            .WithMany() 
-            .HasForeignKey(c => c.UpdatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-
         modelBuilder.Entity<Ticket>()
             .HasOne(x => x.Department)
             .WithMany(x => x.Tickets)
             .HasForeignKey(x => x.DepartmentId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        DataSeeder.SeedInitialData(modelBuilder);
     }
 }

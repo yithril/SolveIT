@@ -56,12 +56,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAngular");
 
-app.UseMiddleware<UserLookupMiddleware>();
-
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<UserLookupMiddleware>();
 
 app.MapControllers();
 

@@ -1,4 +1,4 @@
-﻿using SolveIT_BackEnd.Commands;
+﻿using SolveIT_BackEnd.Commands.Ticket;
 using SolveIT_BackEnd.Models.DTO;
 
 namespace SolveIT_BackEnd.Models.Mapper;
@@ -27,8 +27,9 @@ public static class TicketMapper
         Severity = command.Severity,
         Status = command.Status,
         Language = command.Language,
-        CreatedById = command.CreatedById
+        CreatedById = command.CreatedById,
+        DepartmentId = command.DepartmentId
     };
 
-    public static TicketDto ToDto(this Ticket ticket) => new(ticket.Id, ticket.Priority, ticket.Severity, ticket.Status, ticket.Title, ticket.Description, ticket.Language, ticket.CreatedBy, ticket.CreatedOn, ticket.Comments.Select(x => x.ToDto()).ToList());
+    public static TicketDto ToDto(this Ticket ticket) => new(ticket.Id, ticket.Priority, ticket.Severity, ticket.Status, ticket.Title, ticket.Description, ticket.Language, ticket.CreatedById, ticket.CreatedOn, ticket.Comments.Select(x => x.ToDto()).ToList(), ticket.DepartmentId);
 }

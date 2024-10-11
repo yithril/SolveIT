@@ -2,9 +2,9 @@
 using SolveIT_BackEnd.Enums;
 using SolveIT_BackEnd.Models.DTO;
 
-namespace SolveIT_BackEnd.Commands;
+namespace SolveIT_BackEnd.Commands.Ticket;
 
-public class CreateTicketCommand : IRequest<TicketDto>
+public class UpdateTicketCommand : IRequest<TicketDto>
 {
     public string Title { get; set; }
     public string Description { get; set; }
@@ -13,5 +13,4 @@ public class CreateTicketCommand : IRequest<TicketDto>
     public TicketStatus Status { get; set; }
     public Language Language { get; set; }
     public int DepartmentId { get; set; }
-    public int CreatedById { get; set; }
 }

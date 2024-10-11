@@ -6,5 +6,5 @@ public record CommentDto(
     int Id,
     string Content,
     int TicketId,
-    User User,
+    int CreatedById,
     DateTime CreatedOn);
