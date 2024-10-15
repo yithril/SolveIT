@@ -4,7 +4,7 @@ using SolveIT_BackEnd.Data;
 using SolveIT_BackEnd.Models.DTO;
 using SolveIT_BackEnd.Models.Mapper;
 
-namespace SolveIT_BackEnd.Handlers;
+namespace SolveIT_BackEnd.Handlers.Ticket;
 
 public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, TicketDto>
 {

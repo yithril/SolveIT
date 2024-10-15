@@ -14,7 +14,8 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<UserRole> Roles { get; set; }
     public DbSet<Department> Departments { get; set; }
-    public DbSet<Ticket> Ticket { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<TicketUser> TicketUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -13,5 +13,6 @@ public record TicketDto(
     int CreatedById,
     DateTime CreatedOn,
     List<CommentDto> Comments,
+    List<TicketUserDto> TicketUsers,
     int DepartmentId);
 

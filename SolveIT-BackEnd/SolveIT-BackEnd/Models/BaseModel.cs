@@ -7,5 +7,5 @@ public abstract class BaseModel
     public DateTime CreatedOn { get; set; }
     public int? UpdatedById { get; set; }
     public DateTime? UpdatedOn { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 }

@@ -29,10 +29,17 @@ public class TicketController : ApiBaseController
     [Authorize]
     public async Task<IActionResult> GetTicketById(int id)
     {
-        return Ok(await _mediator.Send(new GetTicketByIdQuery()
+        var result = await _mediator.Send(new GetTicketByIdQuery()
         {
             Id = id
-        }));
+        });
+
+        if(result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
     }
 
     [HttpPost]
@@ -59,15 +66,54 @@ public class TicketController : ApiBaseController
         return CreatedAtAction(nameof(GetTicketById), new { id = ticketDto.Id }, ticketDto);
     }
 
-    [HttpDelete("{id}")]
+    [HttpPatch("{id}/deactivate")]
     [Authorize]
-    public async Task<IActionResult> DeleteTicket(int id)
+    public async Task<IActionResult> DeactivateTicket(int id)
     {
-        await _mediator.Send(new DeactivateTicketCommand()
+        var result = await _mediator.Send(new DeactivateTicketCommand()
         {
             Id = id
         });
 
+        if (!result)
+        {
+            return NotFound();
+        }
+
         return NoContent();
+    }
+
+    [HttpPatch("{id}/activate")]
+    public async Task<IActionResult> ActivateTicket(int id)
+    {
+        var result = await _mediator.Send(new ActivateTicketCommand()
+        {
+            Id = id
+        });
+
+        if (!result)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTicket([FromBody] UpdateTicketDto dto, int id)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _mediator.Send(dto.ToCommand());
+
+        if(result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
     }
 }

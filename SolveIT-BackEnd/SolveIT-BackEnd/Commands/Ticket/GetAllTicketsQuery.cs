@@ -6,10 +6,11 @@ namespace SolveIT_BackEnd.Commands.Ticket;
 
 public class GetAllTicketsQuery : IRequest<List<TicketDto>>
 {
-    int? DepartmentId { get; set; }
-    TicketPriority? Priority { get; set; }
-    TicketSeverity? Severity { get; set; }
-    TicketStatus? Status { get; set; }
-    string? Title { get; set; }
-    Language? Language { get; set; }
+    public int? DepartmentId { get; set; }
+    public TicketPriority? Priority { get; set; }
+    public TicketSeverity? Severity { get; set; }
+    public TicketStatus? Status { get; set; }
+    public string? Title { get; set; }
+    public Language? Language { get; set; }
+    public bool IsActive { get; set; } = true;
 }

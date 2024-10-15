@@ -10,7 +10,7 @@ public class InMemoryDatabaseSetup
     public InMemoryDatabaseSetup()
     {
         _options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
     }
 

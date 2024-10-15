@@ -2,7 +2,7 @@
 
 namespace SolveIT_BackEnd.Commands.Ticket;
 
-public class DeactivateTicketCommand : IRequest<bool>
+public class ActivateTicketCommand : IRequest<bool>
 {
     public int Id { get; set; }
 }
