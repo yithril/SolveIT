@@ -10,11 +10,11 @@ namespace SolveIT_BackEnd.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class TicketController : ApiBaseController
+public class TicketsController : ApiBaseController
 {
     private readonly IMediator _mediator;
 
-    public TicketController(IMediator mediator)
+    public TicketsController(IMediator mediator)
     {
         _mediator = mediator;
     }

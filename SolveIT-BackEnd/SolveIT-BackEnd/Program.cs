@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using SolveIT_BackEnd;
 using SolveIT_BackEnd.Data;
-using SolveIT_BackEnd.Handlers;
 using SolveIT_BackEnd.Middleware;
 using System.Reflection;
 
