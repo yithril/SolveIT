@@ -29,6 +29,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("MainDB")));
 
+var authSettings = builder.Configuration.GetSection("Authentication");
+
 //Auth0
 builder.Services.AddAuthentication(options =>
 {
@@ -37,8 +39,8 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.Authority = "https://dev-5w5l8ake23bk7o4h.us.auth0.com/";
-    options.Audience = "https://recipe-api.com";
+    options.Authority = authSettings["Authority"];
+    options.Audience = authSettings["Audience"];
 });
 
 builder.Services.AddCustomSwagger();
