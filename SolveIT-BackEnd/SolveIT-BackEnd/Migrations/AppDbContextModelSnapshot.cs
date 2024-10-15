@@ -68,6 +68,63 @@ namespace SolveIT_BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedById = 1,
+                            CreatedOn = new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1709),
+                            IsActive = true,
+                            LocationId = 1,
+                            Name = "IT"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedById = 1,
+                            CreatedOn = new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1710),
+                            IsActive = true,
+                            LocationId = 2,
+                            Name = "HR"
+                        });
+                });
+
+            modelBuilder.Entity("SolveIT_BackEnd.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -100,30 +157,30 @@ namespace SolveIT_BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Locations");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Address = "123 Street",
-                            City = "Nowhere",
-                            Country = 0,
+                            Address = "123 Tech Street",
+                            City = "New York",
+                            Country = 5,
                             CreatedById = 1,
-                            CreatedOn = new DateTime(2024, 10, 15, 0, 58, 10, 109, DateTimeKind.Utc).AddTicks(3097),
+                            CreatedOn = new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1598),
                             IsActive = true,
-                            Name = "IT"
+                            Name = "New York Office"
                         },
                         new
                         {
                             Id = 2,
-                            Address = "123 Street",
-                            City = "Nowhere",
-                            Country = 0,
+                            Address = "456 HR Blvd",
+                            City = "Los Angeles",
+                            Country = 5,
                             CreatedById = 1,
-                            CreatedOn = new DateTime(2024, 10, 15, 0, 58, 10, 109, DateTimeKind.Utc).AddTicks(3099),
+                            CreatedOn = new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1599),
                             IsActive = true,
-                            Name = "HR"
+                            Name = "Los Angeles Office"
                         });
                 });
 
@@ -291,7 +348,7 @@ namespace SolveIT_BackEnd.Migrations
                             Id = 1,
                             Auth0Id = "auth0|system-admin-id",
                             CreatedById = 1,
-                            CreatedOn = new DateTime(2024, 10, 15, 0, 58, 10, 109, DateTimeKind.Utc).AddTicks(3119),
+                            CreatedOn = new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1753),
                             DepartmentId = 1,
                             Email = "admin@example.com",
                             FirstName = "System",
@@ -342,7 +399,7 @@ namespace SolveIT_BackEnd.Migrations
                         {
                             Id = 1,
                             CreatedById = 1,
-                            CreatedOn = new DateTime(2024, 10, 15, 0, 58, 10, 109, DateTimeKind.Utc).AddTicks(3008),
+                            CreatedOn = new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1696),
                             Description = "Whatevs",
                             IsActive = true,
                             Name = "Admin"
@@ -351,7 +408,7 @@ namespace SolveIT_BackEnd.Migrations
                         {
                             Id = 2,
                             CreatedById = 1,
-                            CreatedOn = new DateTime(2024, 10, 15, 0, 58, 10, 109, DateTimeKind.Utc).AddTicks(3009),
+                            CreatedOn = new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1697),
                             Description = "Whatevs",
                             IsActive = true,
                             Name = "User"
@@ -367,6 +424,17 @@ namespace SolveIT_BackEnd.Migrations
                         .IsRequired();
 
                     b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("SolveIT_BackEnd.Models.Department", b =>
+                {
+                    b.HasOne("SolveIT_BackEnd.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("SolveIT_BackEnd.Models.Ticket", b =>

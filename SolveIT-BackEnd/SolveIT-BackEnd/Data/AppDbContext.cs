@@ -11,11 +11,12 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Comment> Comments { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<UserRole> Roles { get; set; }
     public DbSet<Department> Departments { get; set; }
+    public DbSet<Location> Locations { get; set; }
+    public DbSet<UserRole> Roles { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketUser> TicketUsers { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -71,6 +72,12 @@ public class AppDbContext : DbContext
             .HasOne(x => x.Department)
             .WithMany(x => x.Tickets)
             .HasForeignKey(x => x.DepartmentId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Department>()
+            .HasOne(x => x.Location)
+            .WithMany()
+            .HasForeignKey(x => x.LocationId)
             .OnDelete(DeleteBehavior.Restrict);
 
         DataSeeder.SeedInitialData(modelBuilder);

@@ -3,35 +3,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SolveIT_BackEnd.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class redid : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    TicketId = table.Column<int>(type: "int", nullable: false),
-                    CreatedById = table.Column<int>(type: "int", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedById = table.Column<int>(type: "int", nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Departments",
+                name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -48,7 +31,7 @@ namespace SolveIT_BackEnd.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,6 +51,61 @@ namespace SolveIT_BackEnd.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedById = table.Column<int>(type: "int", nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departments_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    Severity = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(750)", maxLength: 750, nullable: false),
+                    Language = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedById = table.Column<int>(type: "int", nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,37 +144,21 @@ namespace SolveIT_BackEnd.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Users_Users_ReportsToId",
                         column: x => x.ReportsToId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_Users_UpdatedById",
-                        column: x => x.UpdatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ticket",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Priority = table.Column<int>(type: "int", nullable: false),
-                    Severity = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(750)", maxLength: 750, nullable: false),
-                    Language = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    TicketId = table.Column<int>(type: "int", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedById = table.Column<int>(type: "int", nullable: true),
@@ -145,22 +167,17 @@ namespace SolveIT_BackEnd.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ticket", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ticket_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "Users",
+                        name: "FK_Comments_Tickets_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Tickets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Ticket_Users_UpdatedById",
-                        column: x => x.UpdatedById,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TicketUser",
+                name: "TicketUsers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -176,37 +193,52 @@ namespace SolveIT_BackEnd.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TicketUser", x => x.Id);
+                    table.PrimaryKey("PK_TicketUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TicketUser_Ticket_TicketId",
+                        name: "FK_TicketUsers_Tickets_TicketId",
                         column: x => x.TicketId,
-                        principalTable: "Ticket",
+                        principalTable: "Tickets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TicketUser_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TicketUser_Users_UpdatedById",
-                        column: x => x.UpdatedById,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TicketUser_Users_UserId",
+                        name: "FK_TicketUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_CreatedById",
-                table: "Comments",
-                column: "CreatedById");
+            migrationBuilder.InsertData(
+                table: "Locations",
+                columns: new[] { "Id", "Address", "City", "Country", "CreatedById", "CreatedOn", "IsActive", "Name", "UpdatedById", "UpdatedOn" },
+                values: new object[,]
+                {
+                    { 1, "123 Tech Street", "New York", 5, 1, new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1598), true, "New York Office", null, null },
+                    { 2, "456 HR Blvd", "Los Angeles", 5, 1, new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1599), true, "Los Angeles Office", null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "CreatedById", "CreatedOn", "Description", "IsActive", "Name", "UpdatedById", "UpdatedOn" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1696), "Whatevs", true, "Admin", null, null },
+                    { 2, 1, new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1697), "Whatevs", true, "User", null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "Id", "CreatedById", "CreatedOn", "IsActive", "LocationId", "Name", "UpdatedById", "UpdatedOn" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1709), true, 1, "IT", null, null },
+                    { 2, 1, new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1710), true, 2, "HR", null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Auth0Id", "CreatedById", "CreatedOn", "DepartmentId", "Email", "FirstName", "IsActive", "LastName", "PhoneNumber", "ReportsToId", "UpdatedById", "UpdatedOn", "UserRoleId" },
+                values: new object[] { 1, "auth0|system-admin-id", 1, new DateTime(2024, 10, 15, 22, 40, 50, 127, DateTimeKind.Utc).AddTicks(1753), 1, "admin@example.com", "System", true, "Admin", "123-456-9999", null, null, null, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_TicketId",
@@ -214,64 +246,24 @@ namespace SolveIT_BackEnd.Migrations
                 column: "TicketId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UpdatedById",
-                table: "Comments",
-                column: "UpdatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Departments_CreatedById",
+                name: "IX_Departments_LocationId",
                 table: "Departments",
-                column: "CreatedById");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Departments_UpdatedById",
-                table: "Departments",
-                column: "UpdatedById");
+                name: "IX_Tickets_DepartmentId",
+                table: "Tickets",
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_CreatedById",
-                table: "Roles",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Roles_UpdatedById",
-                table: "Roles",
-                column: "UpdatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ticket_CreatedById",
-                table: "Ticket",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ticket_UpdatedById",
-                table: "Ticket",
-                column: "UpdatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TicketUser_CreatedById",
-                table: "TicketUser",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TicketUser_TicketId",
-                table: "TicketUser",
+                name: "IX_TicketUsers_TicketId",
+                table: "TicketUsers",
                 column: "TicketId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TicketUser_UpdatedById",
-                table: "TicketUser",
-                column: "UpdatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TicketUser_UserId",
-                table: "TicketUser",
+                name: "IX_TicketUsers_UserId",
+                table: "TicketUsers",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_CreatedById",
-                table: "Users",
-                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_DepartmentId",
@@ -284,99 +276,22 @@ namespace SolveIT_BackEnd.Migrations
                 column: "ReportsToId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_UpdatedById",
-                table: "Users",
-                column: "UpdatedById");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_UserRoleId",
                 table: "Users",
                 column: "UserRoleId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Comments_Ticket_TicketId",
-                table: "Comments",
-                column: "TicketId",
-                principalTable: "Ticket",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Comments_Users_CreatedById",
-                table: "Comments",
-                column: "CreatedById",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Comments_Users_UpdatedById",
-                table: "Comments",
-                column: "UpdatedById",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Departments_Users_CreatedById",
-                table: "Departments",
-                column: "CreatedById",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Departments_Users_UpdatedById",
-                table: "Departments",
-                column: "UpdatedById",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Roles_Users_CreatedById",
-                table: "Roles",
-                column: "CreatedById",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Roles_Users_UpdatedById",
-                table: "Roles",
-                column: "UpdatedById",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Departments_Users_CreatedById",
-                table: "Departments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Departments_Users_UpdatedById",
-                table: "Departments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Roles_Users_CreatedById",
-                table: "Roles");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Roles_Users_UpdatedById",
-                table: "Roles");
-
             migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "TicketUser");
+                name: "TicketUsers");
 
             migrationBuilder.DropTable(
-                name: "Ticket");
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -386,6 +301,9 @@ namespace SolveIT_BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
         }
     }
 }

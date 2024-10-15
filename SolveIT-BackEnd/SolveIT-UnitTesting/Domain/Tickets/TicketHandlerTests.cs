@@ -226,16 +226,12 @@ public class TicketHandlerTests
     {
         var department = new Department()
         {
-            Name = "IT",
-            Address = "Somewhere",
-            City = "Smallville"
+            Name = "IT"
         };
 
         var department2 = new Department()
         {
-            Name = "Human Resources",
-            Address = "Somewhere",
-            City = "Smallville"
+            Name = "Human Resources"
         };
 
         _context.Departments.Add(department);
