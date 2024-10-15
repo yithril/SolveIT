@@ -45,7 +45,6 @@ public class TicketHandlerTests
             Title = "Test Ticket",
             Description = "Test Description",
             Priority = TicketPriority.High,
-            Status = TicketStatus.Open,
             Severity = TicketSeverity.Critical,
             Language = Language.English,
             DepartmentId = 1,

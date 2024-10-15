@@ -14,7 +14,6 @@ public static class TicketMapper
             Description = dto.Description,
             Priority = dto.Priority,
             Severity = dto.Severity,
-            Status = dto.Status,
             Language = dto.Language,
             DepartmentId = dto.DepartmentId
         };
@@ -26,7 +25,6 @@ public static class TicketMapper
         Description = command.Description,
         Priority = command.Priority,
         Severity = command.Severity,
-        Status = command.Status,
         Language = command.Language,
         CreatedById = command.CreatedById,
         DepartmentId = command.DepartmentId

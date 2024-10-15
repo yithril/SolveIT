@@ -21,6 +21,7 @@ public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, T
             var ticket = request.ToEntity();
             ticket.CreatedOn = DateTime.UtcNow;
             ticket.IsActive = true;
+            ticket.Status = Enums.TicketStatus.Open;
 
             _appDbContext.Add(ticket);
             await _appDbContext.SaveChangesAsync(cancellationToken);

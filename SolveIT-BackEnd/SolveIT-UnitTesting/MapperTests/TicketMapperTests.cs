@@ -12,14 +12,13 @@ public class TicketMapperTests
     [Test]
     public void CreateTicketDto_ToCommand_Succeeds()
     {
-        CreateTicketDto dto = new(TicketPriority.Low, TicketSeverity.Major, TicketStatus.Open, "Test", "Test Description", Language.English, 1);
+        CreateTicketDto dto = new(TicketPriority.Low, TicketSeverity.Major,  "Test", "Test Description", Language.English, 1);
 
         var result = dto.ToCommand();
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Priority, Is.EqualTo(TicketPriority.Low));
         Assert.That(result.Severity, Is.EqualTo(TicketSeverity.Major));
-        Assert.That(result.Status, Is.EqualTo(TicketStatus.Open));
         Assert.That(result.Title, Is.EqualTo("Test"));
         Assert.That(result.Description, Is.EqualTo("Test Description"));
         Assert.That(result.Language, Is.EqualTo(Language.English));
@@ -35,7 +34,6 @@ public class TicketMapperTests
             Description = "Test Description",
             Priority = TicketPriority.Low,
             Severity = TicketSeverity.Major,
-            Status = TicketStatus.Open,
             Language = Language.English,
             DepartmentId = 1,
             CreatedById = 1
