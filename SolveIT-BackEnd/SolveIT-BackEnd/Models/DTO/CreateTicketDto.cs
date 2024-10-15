@@ -9,6 +9,8 @@ public record CreateTicketDto(
     [Required]
     TicketSeverity Severity,
     [Required]
+    TicketType TicketType,
+    [Required]
     [MaxLength(50)]
     string Title,
     [Required]

@@ -12,6 +12,7 @@ public class UpdateTicketCommand : IRequest<TicketDto>
     public TicketPriority Priority { get; set; }
     public TicketSeverity Severity { get; set; }
     public TicketStatus Status { get; set; }
+    public TicketType TicketType { get; set; }
     public Language Language { get; set; }
     public int DepartmentId { get; set; }
     public int UpdatedById { get; set; }

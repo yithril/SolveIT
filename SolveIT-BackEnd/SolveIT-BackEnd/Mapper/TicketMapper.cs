@@ -14,6 +14,7 @@ public static class TicketMapper
             Description = dto.Description,
             Priority = dto.Priority,
             Severity = dto.Severity,
+            TicketType = dto.TicketType,
             Language = dto.Language,
             DepartmentId = dto.DepartmentId
         };
@@ -25,12 +26,13 @@ public static class TicketMapper
         Description = command.Description,
         Priority = command.Priority,
         Severity = command.Severity,
+        TicketType = command.TicketType,
         Language = command.Language,
         CreatedById = command.CreatedById,
         DepartmentId = command.DepartmentId
     };
 
-    public static TicketDto ToDto(this Ticket ticket) => new(ticket.Id, ticket.Priority, ticket.Severity, ticket.Status, ticket.Title, ticket.Description, ticket.Language, ticket.CreatedById, ticket.CreatedOn, ticket.Comments.Select(x => x.ToDto()).ToList(), ticket.TicketUsers.Select(x => x.ToDto()).ToList(), ticket.DepartmentId);
+    public static TicketDto ToDto(this Ticket ticket) => new(ticket.Id, ticket.Priority, ticket.Severity, ticket.Status, ticket.TicketType, ticket.Title, ticket.Description, ticket.Language, ticket.CreatedById, ticket.CreatedOn, ticket.Comments.Select(x => x.ToDto()).ToList(), ticket.TicketUsers.Select(x => x.ToDto()).ToList(), ticket.DepartmentId);
 
     public static UpdateTicketCommand ToCommand(this UpdateTicketDto dto) => new()
     {
@@ -39,6 +41,7 @@ public static class TicketMapper
         Priority = dto.Priority,
         Severity = dto.Severity,
         Status = dto.Status,
+        TicketType = dto.TicketType,
         Language = dto.Language,
         DepartmentId = dto.DepartmentId
     };

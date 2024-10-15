@@ -11,6 +11,8 @@ public record UpdateTicketDto(
     [Required]
     TicketStatus Status,
     [Required]
+    TicketType TicketType,
+    [Required]
     string Title,
     [Required]
     string Description,

@@ -7,6 +7,7 @@ public record TicketDto(
     TicketPriority Priority,
     TicketSeverity Severity,
     TicketStatus Status,
+    TicketType TicketType,
     string Title,
     string Description,
     Language Language,

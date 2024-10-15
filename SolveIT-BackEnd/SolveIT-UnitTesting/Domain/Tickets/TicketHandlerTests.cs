@@ -172,6 +172,7 @@ public class TicketHandlerTests
             Severity = TicketSeverity.Minor,
             Priority = TicketPriority.Medium,
             Status = TicketStatus.Escalated,
+            TicketType = ticket.TicketType,
             Language = Language.Spanish,
             DepartmentId = 2,
             UpdatedById = 1
@@ -258,6 +259,7 @@ public class TicketHandlerTests
             Priority = TicketPriority.High,
             Language = Language.English,
             Status = TicketStatus.Open,
+            TicketType = TicketType.ITSupport,
             Title = "Test",
             Description = "Test",
             DepartmentId = 1

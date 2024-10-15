@@ -15,6 +15,9 @@ public class Ticket : BaseModel
     public TicketStatus Status { get; set; }
 
     [Required]
+    public TicketType TicketType { get; set; }
+
+    [Required]
     [MaxLength(50)]
     public string Title { get; set; }
 
