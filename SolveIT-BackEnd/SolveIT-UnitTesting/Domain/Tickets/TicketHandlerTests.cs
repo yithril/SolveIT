@@ -154,6 +154,75 @@ public class TicketHandlerTests
         Assert.That(ticket.IsActive, Is.True);
     }
 
+    [Test]
+    public async Task UpdateTicket_TicketExists_Succeeds()
+    {
+        await LoadBasicTickets();
+
+        var ticket = await _context.Tickets.FindAsync(1);
+
+        Assert.That(ticket, Is.Not.Null);
+
+        var createdById = ticket.CreatedById;
+
+        UpdateTicketCommand command = new UpdateTicketCommand()
+        {
+            Id = ticket.Id,
+            Title = "Updated Title",
+            Description = "Updated Description",
+            Severity = TicketSeverity.Minor,
+            Priority = TicketPriority.Medium,
+            Status = TicketStatus.Escalated,
+            Language = Language.Spanish,
+            DepartmentId = 2,
+            UpdatedById = 1
+        };
+
+        var handler = new UpdateTicketHandler(_context);
+
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        ticket = await _context.Tickets.FindAsync(ticket.Id);
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(ticket, Is.Not.Null);
+        Assert.That(result.Id, Is.EqualTo(ticket.Id));
+        Assert.That(result.Status, Is.EqualTo(TicketStatus.Escalated));
+        Assert.That(result.Severity, Is.EqualTo(TicketSeverity.Minor));
+        Assert.That(result.Priority, Is.EqualTo(TicketPriority.Medium));
+        Assert.That(result.Language, Is.EqualTo(Language.Spanish));
+        Assert.That(result.Title, Is.EqualTo("Updated Title"));
+        Assert.That(result.Description, Is.EqualTo("Updated Description"));
+        Assert.That(ticket.UpdatedById, Is.EqualTo(1));
+        Assert.That(ticket.IsActive, Is.True);
+        Assert.That(ticket.CreatedById, Is.EqualTo(createdById));
+    }
+
+    [Test]
+    public async Task UpdateTicket_TicketDoesNotExist_ReturnsNull()
+    {
+        await LoadBasicTickets();
+
+        UpdateTicketCommand command = new UpdateTicketCommand()
+        {
+            Id = 100,
+            Title = "Updated Title",
+            Description = "Updated Description",
+            Severity = TicketSeverity.Minor,
+            Priority = TicketPriority.Medium,
+            Status = TicketStatus.Escalated,
+            Language = Language.Spanish,
+            DepartmentId = 2,
+            UpdatedById = 1
+        };
+
+        var handler = new UpdateTicketHandler(_context);
+
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        Assert.That(result, Is.Null);
+    }
+
     private async Task LoadBasicTickets(bool IsActive = true)
     {
         var department = new Department()
@@ -163,7 +232,15 @@ public class TicketHandlerTests
             City = "Smallville"
         };
 
+        var department2 = new Department()
+        {
+            Name = "Human Resources",
+            Address = "Somewhere",
+            City = "Smallville"
+        };
+
         _context.Departments.Add(department);
+        _context.Departments.Add(department2);
 
         var user = new User()
         {

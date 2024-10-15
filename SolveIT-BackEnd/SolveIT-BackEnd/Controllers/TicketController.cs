@@ -9,6 +9,7 @@ namespace SolveIT_BackEnd.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TicketController : ApiBaseController
 {
     private readonly IMediator _mediator;
@@ -19,14 +20,12 @@ public class TicketController : ApiBaseController
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> GetAllTickets([FromQuery] GetAllTicketsQuery query)
     {
         return Ok(await _mediator.Send(query));
     }
 
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<IActionResult> GetTicketById(int id)
     {
         var result = await _mediator.Send(new GetTicketByIdQuery()
@@ -43,7 +42,6 @@ public class TicketController : ApiBaseController
     }
 
     [HttpPost]
-    [Authorize]
     public async Task<IActionResult> CreateTicket([FromBody] CreateTicketDto dto)
     {
         if(!ModelState.IsValid)
@@ -67,7 +65,6 @@ public class TicketController : ApiBaseController
     }
 
     [HttpPatch("{id}/deactivate")]
-    [Authorize]
     public async Task<IActionResult> DeactivateTicket(int id)
     {
         var result = await _mediator.Send(new DeactivateTicketCommand()
@@ -107,7 +104,17 @@ public class TicketController : ApiBaseController
             return BadRequest(ModelState);
         }
 
-        var result = await _mediator.Send(dto.ToCommand());
+        var user = GetCurrentUser();
+
+        if(user == null)
+        {
+            return NotFound();
+        }
+
+        var command = dto.ToCommand();
+        command.UpdatedById = user.Id;
+        
+        var result = await _mediator.Send(command);
 
         if(result == null)
         {

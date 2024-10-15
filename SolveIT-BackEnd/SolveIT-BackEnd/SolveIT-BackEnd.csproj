@@ -25,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Handlers\Comments\" />
+    <Folder Include="Handlers\TicketUsers\" />
     <Folder Include="Migrations\" />
     <Folder Include="Events\" />
   </ItemGroup>
