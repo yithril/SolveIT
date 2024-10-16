@@ -1,10 +1,13 @@
 ﻿using SolveIT_BackEnd.Enums;
+using SolveIT_BackEnd.Helpers;
 using System.ComponentModel.DataAnnotations;
 
 namespace SolveIT_BackEnd.Models;
 
 public class Ticket : BaseModel
 {
+    private readonly TicketStatusStateMachine _stateMachine;
+
     [Required]
     public TicketPriority Priority { get; set; }
 
@@ -34,4 +37,21 @@ public class Ticket : BaseModel
     public List<TicketUser> TicketUsers { get; set; } = new List<TicketUser>();
 
     public List<Comment> Comments { get; set; } = new List<Comment>();
+
+    public Ticket()
+    {
+        _stateMachine = new TicketStatusStateMachine(Status);
+    }
+
+    public void ChangeStatus(TicketTrigger trigger)
+    {
+        if (!_stateMachine.CanTransition(trigger))
+        {
+            throw new InvalidOperationException("Invalid status transition");
+        }
+
+        _stateMachine.TransitionTo(trigger);
+
+        Status = _stateMachine.GetCurrentState();
+    }
 }

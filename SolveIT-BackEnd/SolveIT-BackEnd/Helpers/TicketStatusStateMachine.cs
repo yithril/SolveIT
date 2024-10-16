@@ -21,4 +21,19 @@ public class TicketStatusStateMachine
             .Permit(TicketTrigger.Resolve, TicketStatus.Resolved)
             .Permit(TicketTrigger.Hold, TicketStatus.OnHold);
     }
+
+    public bool CanTransition(TicketTrigger trigger)
+    {
+        return _stateMachine.CanFire(trigger);
+    }
+
+    public void TransitionTo(TicketTrigger trigger)
+    {
+        _stateMachine.Fire(trigger);
+    }
+
+    public TicketStatus GetCurrentState()
+    {
+        return _stateMachine.State;
+    }
 }

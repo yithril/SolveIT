@@ -14,12 +14,31 @@ public class AppDbContext : DbContext
     public DbSet<Department> Departments { get; set; }
     public DbSet<Location> Locations { get; set; }
     public DbSet<UserRole> Roles { get; set; }
+    public DbSet<TicketEscalationRule> TicketEscalationRules { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketUser> TicketUsers { get; set; }
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TicketEscalationRule>()
+            .HasOne(x => x.NextUserRole)
+            .WithMany()
+            .HasForeignKey(x => x.NextUserRoleId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<TicketEscalationRule>()
+            .HasOne(x => x.StartingUserRole)
+            .WithMany()
+            .HasForeignKey(x => x.StartingUserRoleId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<TicketEscalationRule>()
+            .HasOne(x => x.Department)
+            .WithMany()
+            .HasForeignKey(x => x.DepartmentId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<User>()
             .HasOne(x => x.ReportsTo)
             .WithMany(x => x.Subordinates)

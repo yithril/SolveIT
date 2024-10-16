@@ -32,7 +32,7 @@ public class UpdateTicketHandler : IRequestHandler<UpdateTicketCommand, TicketDt
         ticket.UpdatedById = request.UpdatedById;
         ticket.Title = request.Title;
         ticket.Description = request.Description;
-        ticket.Status = request.Status;
+        //ticket.Status = request.Status;
         ticket.Priority = request.Priority;
         ticket.Severity = request.Severity;
         ticket.Language = request.Language;

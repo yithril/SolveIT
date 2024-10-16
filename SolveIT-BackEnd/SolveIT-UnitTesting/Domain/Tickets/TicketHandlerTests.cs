@@ -1,6 +1,9 @@
-﻿using SolveIT_BackEnd.Commands.Ticket;
+﻿using MediatR;
+using Moq;
+using SolveIT_BackEnd.Commands.Ticket;
 using SolveIT_BackEnd.Data;
 using SolveIT_BackEnd.Enums;
+using SolveIT_BackEnd.Events;
 using SolveIT_BackEnd.Handlers.Ticket;
 using SolveIT_BackEnd.Models;
 using SolveIT_UnitTesting.Config;
@@ -12,6 +15,7 @@ public class TicketHandlerTests
 {
     private InMemoryDatabaseSetup _setup;
     private AppDbContext _context;
+    private Mock<IMediator> _mediator;
 
     [OneTimeSetUp]
     public void GlobalSetup()
@@ -23,6 +27,7 @@ public class TicketHandlerTests
     public void Setup()
     {
         _context = _setup.GetDbContext();
+        _mediator = new Mock<IMediator>();
     }
 
     [TearDown]
@@ -51,7 +56,7 @@ public class TicketHandlerTests
             CreatedById = 1
         };
 
-        var handler = new CreateTicketCommandHandler(_context);
+        var handler = new CreateTicketCommandHandler(_context, _mediator.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
         Assert.That(result, Is.Not.Null);
@@ -244,7 +249,8 @@ public class TicketHandlerTests
             LastName = "Doe",
             Auth0Id = "auth0|123",
             Email = "somewhere@email.com",
-            PhoneNumber = "1234567890"
+            PhoneNumber = "1234567890",
+            DepartmentId = department.Id,
         };
 
         _context.Users.Add(user);

@@ -64,7 +64,7 @@ public class TicketMapperTests
             Description = "Test Description",
             Priority = TicketPriority.Low,
             Severity = TicketSeverity.Major,
-            Status = TicketStatus.Open,
+            //Status = TicketStatus.Open,
             TicketType = TicketType.ITSupport,
             Language = Language.English,
             DepartmentId = 1,
