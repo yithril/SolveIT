@@ -15,7 +15,7 @@ public class Ticket : BaseModel
     public TicketSeverity Severity { get; set; }
 
     [Required]
-    public TicketStatus Status { get; set; }
+    public TicketStatus Status { get; private set; }
 
     [Required]
     public TicketType TicketType { get; set; }
@@ -53,5 +53,27 @@ public class Ticket : BaseModel
         _stateMachine.TransitionTo(trigger);
 
         Status = _stateMachine.GetCurrentState();
+    }
+
+    public int CalculateEscalationPoints()
+    {
+        var severityMatrix = new Dictionary<(TicketPriority, TicketSeverity), int>()
+        {
+            {(TicketPriority.Low, TicketSeverity.Minor), 1},
+            {(TicketPriority.Low, TicketSeverity.Major), 2},
+            {(TicketPriority.Medium, TicketSeverity.Minor), 2},
+            {(TicketPriority.Medium, TicketSeverity.Major), 4},
+            {(TicketPriority.High, TicketSeverity.Minor), 3},
+            {(TicketPriority.High, TicketSeverity.Major), 5},
+            {(TicketPriority.Critical, TicketSeverity.Minor), 4},
+            {(TicketPriority.Critical, TicketSeverity.Major), 6}
+        };
+
+        if (severityMatrix.TryGetValue((Priority, Severity), out int points))
+        {
+            return points;
+        }
+
+        throw new InvalidOperationException("Invalid combination of Priority and Severity.");
     }
 }

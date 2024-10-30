@@ -54,9 +54,9 @@ public class AssignUsersToTicketHandlerTests
         Assert.That(ticket.Severity, Is.EqualTo(TicketSeverity.Minor));
         Assert.That(ticket.TicketUsers.Count, Is.EqualTo(0));
 
-        TicketCreatedEvent ticketCreatedEvent = new TicketCreatedEvent(1, 1);
+        TicketCreatedEvent ticketCreatedEvent = new TicketCreatedEvent(1, 3);
 
-        var handler = new AssignUsersToTicketHandler();
+        var handler = new AssignUsersToTicketHandler(_context);
 
         await handler.Handle(ticketCreatedEvent, CancellationToken.None);
 
@@ -75,8 +75,17 @@ public class AssignUsersToTicketHandlerTests
         Assert.That(assignedEmployee.Email, Is.EqualTo("Winterfell@reallycold.com"));
     }
 
+    //test if two users have different workload but same role that the one with less tickets gets picked
+
     //Make a test so that when a user submits a ticket, it cannot be assigned to them
     //to do work on it
+
+    //Test to see if escalation rules for a department have not been set up
+
+    //Test to make certain that higher severity tickets go higher up the chain
+
+    //Test if two users have same ticket count that they're not doubly assigned
+
 
     private async Task BuildExample()
     {
@@ -171,7 +180,20 @@ public class AssignUsersToTicketHandlerTests
             UserRoleId = newbRole.Id
         };
 
+        var employeeThree = new User()
+        {
+            FirstName = "Aria",
+            LastName = "Stark",
+            Auth0Id = "facelessman",
+            Email = "TheFacelessOne@bravos.com",
+            PhoneNumber = "1234567890",
+            DepartmentId = department.Id,
+            ReportsToId = employeeTwo.Id,
+            UserRoleId = newbRole.Id
+        };
+
         _context.Add(employeeTwo);
+        _context.Add(employeeThree);
         await _context.SaveChangesAsync();
 
         Ticket ticket = new Ticket()
@@ -179,33 +201,58 @@ public class AssignUsersToTicketHandlerTests
             Priority = TicketPriority.Low,
             Severity = TicketSeverity.Minor,
             Language = Language.German,
-            Status = TicketStatus.Open,
             TicketType = TicketType.ITSupport,
             Title = "Omg everything is on fire",
             Description = "Didn't you read the title???!!!",
             DepartmentId = department.Id
         };
 
+        Ticket ariasTicket = new Ticket()
+        {
+            Priority = TicketPriority.Low,
+            Severity = TicketSeverity.Major,
+            Language = Language.Spanish,
+            TicketType = TicketType.ITSupport,
+            Title = "Yes really everything is on fire",
+            Description = "Didn't you read the title???!!!",
+            DepartmentId = department.Id
+        };
+
         _context.Add(ticket);
+        _context.Add(ariasTicket);
+        await _context.SaveChangesAsync();
+
+        //Aria already has one ticket;
+        TicketUser ticketUser = new TicketUser()
+        {
+            UserId = employeeThree.Id,
+            TicketId = ariasTicket.Id
+        };
+
+        _context.Add(ticketUser);
         await _context.SaveChangesAsync();
 
         //Escalation chain
+        //Sansa Stark
         TicketEscalationRule ticketEscalationRuleStepOne = new TicketEscalationRule()
         {
             DepartmentId = department.Id,
             StartingUserRoleId = newbRole.Id,
             NextUserRoleId = newbBoss.Id,
             TicketType = TicketType.ITSupport,
-            IsFinalLevel = false
+            IsFinalLevel = false,
+            Threshhold = 1
         };
 
+        //Jon Snow
         TicketEscalationRule ticketEscalationRuleStepTwo = new TicketEscalationRule()
         {
             DepartmentId = department.Id,
             StartingUserRoleId = newbBoss.Id,
             NextUserRoleId = 0,
             TicketType = TicketType.ITSupport,
-            IsFinalLevel = true
+            IsFinalLevel = true,
+            Threshhold = 2
         };
 
         _context.Add(ticketEscalationRuleStepOne);
